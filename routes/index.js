@@ -14,6 +14,11 @@ router.get('/', function (req, res, next) {
     });
 });
 
+router.get('/new', function (req, res, next) {
+    //console.log("installed printers:\n" + util.inspect(printer.getPrinters(), {colors: true, depth: 10}));
+    res.render('main');
+});
+
 router.get('/default', function (req,res,next) {
     console.log('default printer name: ' + (printer.getDefaultPrinterName() || 'is not defined on your computer'));
     res.render('index', {
@@ -54,48 +59,6 @@ router.get('/test', function (req, res, next) {
 
 });
 
-
-/*router.post('/upload', function (req, res) {
-    if (!req.files)
-        return res.status(400).send('No files were uploaded.');
-
-    /*printer.printDirect({
-        data: req.files // or simple String: "some text"
-        //, printer:'Foxit Reader PDF Printer' // printer name, if missing then will print to default printer
-        , type: 'PDF' // type: RAW, TEXT, PDF, JPEG, .. depends on platform
-        , success: function (jobID) {
-            console.log("sent to printer with ID: " + jobID);
-        }
-        , error: function (err) {
-            console.log(err);
-        }
-    });*/
-/*printer.printDirect({
-    data: req.files,
-    type: 'PDF',
-    success: function (id) {
-        console.log('printed with id ' + id);
-    },
-    error: function (err) {
-        console.error('error on printing: ' + err);
-    }
-});
-
-res.render('index', {title: 'Express', text: util.inspect(printer.getPrinters(), {colors: true, depth: 10})});*/
-/*if (!req.files)
-    return res.status(400).send('No files were uploaded.');
-
-// The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-let sampleFile = req.files.sampleFile;
-
-// Use the mv() method to place the file somewhere on your server
-sampleFile.mv(__dirname + '/uploads/filename.jpg', function (err) {
-    if (err) return res.status(500).send(err);
-
-    res.send('File uploaded!');
-});*/
-/*});*/
-
 router.post('/upload', function (req, res, next) {
     let fstream;
     let savePath;
@@ -109,7 +72,7 @@ router.post('/upload', function (req, res, next) {
         file.pipe(fstream);
         fstream.on('close', function () {
             console.log("Upload Finished of " + filename);
-            printer.printDirect({
+            /*printer.printDirect({
                 data: fs.readFileSync(savePath),
                 type: 'AUTO',
                 success: function (jobID) {
@@ -118,7 +81,7 @@ router.post('/upload', function (req, res, next) {
                 error: function (err) {
                     console.log(err);
                 }
-            });
+            });*/
             res.redirect('back');
         });
     });
