@@ -21,6 +21,13 @@ router.get('/default', function (req,res,next) {
         text: util.inspect(printer.getDefaultPrinterName(), {colors: true, depth: 10})
     });
 });
+router.get('/support', function (req,res,next) {
+    console.log('default printer name: ' + (printer.getDefaultPrinterName() || 'is not defined on your computer'));
+    res.render('index', {
+        title: 'Express',
+        text: util.inspect(printer.getSupportedJobCommands(), {colors: true, depth: 10})
+    });
+});
 
 router.get('/printer', function (req, res, next) {
     //console.log("installed printers:\n" + util.inspect(printer.getPrinters(), {colors: true, depth: 10}));
