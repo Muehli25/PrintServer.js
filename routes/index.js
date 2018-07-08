@@ -14,6 +14,13 @@ router.get('/', function (req, res, next) {
     });
 });
 
+router.get('/default', function (req,res,next) {
+    res.render('index', {
+        title: 'Express',
+        text: util.inspect(printer.getDefaultPrinterName(), {colors: true, depth: 10})
+    });
+});
+
 router.get('/printer', function (req, res, next) {
     //console.log("installed printers:\n" + util.inspect(printer.getPrinters(), {colors: true, depth: 10}));
     res.render('index', {
