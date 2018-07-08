@@ -7,15 +7,6 @@ var fs = require('fs-extra');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-    //console.log("installed printers:\n" + util.inspect(printer.getPrinters(), {colors: true, depth: 10}));
-    res.render('index', {
-        title: 'Express',
-        text: 'Text'/*util.inspect(printer.getPrinters(), {colors: true, depth: 10})*/
-    });
-});
-
-router.get('/new', function (req, res, next) {
-    //console.log("installed printers:\n" + util.inspect(printer.getPrinters(), {colors: true, depth: 10}));
     res.render('main');
 });
 
@@ -72,7 +63,7 @@ router.post('/upload', function (req, res, next) {
         file.pipe(fstream);
         fstream.on('close', function () {
             console.log("Upload Finished of " + filename);
-            /*printer.printDirect({
+            printer.printDirect({
                 data: fs.readFileSync(savePath),
                 type: 'AUTO',
                 success: function (jobID) {
@@ -81,7 +72,7 @@ router.post('/upload', function (req, res, next) {
                 error: function (err) {
                     console.log(err);
                 }
-            });*/
+            });
             res.redirect('back');
         });
     });
