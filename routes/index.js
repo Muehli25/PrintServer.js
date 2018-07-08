@@ -111,6 +111,7 @@ router.post('/upload', function (req, res, next) {
             console.log("Upload Finished of " + filename);
             printer.printDirect({
                 data: fs.readFileSync(savePath),
+                type: 'AUTO',
                 success: function (jobID) {
                     console.log("sent to printer with ID: " + jobID);
                 },
