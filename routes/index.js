@@ -15,6 +15,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/default', function (req,res,next) {
+    console.log('default printer name: ' + (printer.getDefaultPrinterName() || 'is not defined on your computer'));
     res.render('index', {
         title: 'Express',
         text: util.inspect(printer.getDefaultPrinterName(), {colors: true, depth: 10})
@@ -103,7 +104,6 @@ router.post('/upload', function (req, res, next) {
             console.log("Upload Finished of " + filename);
             printer.printDirect({
                 data: fs.readFileSync(savePath),
-                printer: process.env[0], // printer name, if missing then will print to default printer
                 success: function (jobID) {
                     console.log("sent to printer with ID: " + jobID);
                 },
