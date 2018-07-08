@@ -29,12 +29,14 @@ router.get('/test', function (req, res, next) {
         , type: 'RAW' // type: RAW, TEXT, PDF, JPEG, .. depends on platform
         , success: function (jobID) {
             console.log("sent to printer with ID: " + jobID);
+            res.render('index', {title: 'Express', text: util.inspect(printer.getPrinters(), {colors: true, depth: 10})});
         }
         , error: function (err) {
             console.log(err);
+            res.render('index', {title: 'Express', text: util.inspect(printer.getPrinters(), {colors: true, depth: 10})});
         }
     });
-    res.render('index', {title: 'Express', text: util.inspect(printer.getPrinters(), {colors: true, depth: 10})});
+
 });
 
 
@@ -94,6 +96,7 @@ router.post('/upload', function (req, res, next) {
             console.log("Upload Finished of " + filename);
             printer.printDirect({
                 data: fs.readFileSync(savePath),
+                printer: process.env[0], // printer name, if missing then will print to default printer
                 success: function (jobID) {
                     console.log("sent to printer with ID: " + jobID);
                 },
