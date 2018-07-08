@@ -41,7 +41,7 @@ router.get('/test', function (req, res, next) {
     printer.printDirect({
         data: "print from Node.JS buffer" // or simple String: "some text"
         //, printer:'Foxit Reader PDF Printer' // printer name, if missing then will print to default printer
-        , type: 'RAW' // type: RAW, TEXT, PDF, JPEG, .. depends on platform
+        , type: 'AUTO' // type: RAW, TEXT, PDF, JPEG, .. depends on platform
         , success: function (jobID) {
             console.log("sent to printer with ID: " + jobID);
             res.render('index', {title: 'Express', text: util.inspect(printer.getPrinters(), {colors: true, depth: 10})});
