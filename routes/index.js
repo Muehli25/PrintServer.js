@@ -14,6 +14,14 @@ router.get('/', function (req, res, next) {
     });
 });
 
+router.get('/printer', function (req, res, next) {
+    //console.log("installed printers:\n" + util.inspect(printer.getPrinters(), {colors: true, depth: 10}));
+    res.render('index', {
+        title: 'Express',
+        text: util.inspect(printer.getPrinters(), {colors: true, depth: 10})
+    });
+});
+
 router.get('/test', function (req, res, next) {
     printer.printDirect({
         data: "print from Node.JS buffer" // or simple String: "some text"
