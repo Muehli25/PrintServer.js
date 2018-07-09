@@ -14,16 +14,21 @@ router.post('/upload', function (req, res, next) {
     req.busboy
         .on('file', function (fieldname, file, filename) {
             console.log("Uploading: " + filename);
-            savePath = __dirname + '/uploads/' + filename;
-            if (fs.lstatSync(savePath).isDirectory()) {
-                //prevent crash with no file
+            if (!filename) {
+                console.log("No file given");
                 res.json({success: false});
                 return;
             }
+            savePath = __dirname + '/uploads/' + filename;
             filestream = fs.createWriteStream(savePath);
             file.pipe(filestream);
             filestream.on('close', function () {
                 console.log("Upload Finished of " + filename);
+                if (fs.lstatSync(savePath).isDirectory()) {
+                    console.log("File not found");
+                    res.json({success: false});
+                    return;
+                }
                 printer.printDirect({
                     data: fs.readFileSync(savePath),
                     type: 'AUTO',
