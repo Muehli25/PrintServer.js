@@ -1,30 +1,28 @@
-var express = require('express');
-var router = express.Router();
-var printer = require('printer');
-var util = require('util');
-var fs = require('fs-extra');
+const express = require('express');
+const router = express.Router();
+const printer = require('printer');
+const fs = require('fs-extra');
 
 router.get('/', function (req, res, next) {
     res.render('main');
 });
 
 router.post('/upload', function (req, res, next) {
-    let fstream;
+    let filestream;
     let savePath;
     req.pipe(req.busboy);
     req.busboy
         .on('file', function (fieldname, file, filename) {
             console.log("Uploading: " + filename);
-
-            //Path where image will be uploaded
             savePath = __dirname + '/uploads/' + filename;
-            if (fs.lstatSync(savePath).isDirectory()) { //prevent crash with no file
+            if (fs.lstatSync(savePath).isDirectory()) {
+                //prevent crash with no file
                 res.json({success: false});
                 return;
             }
-            fstream = fs.createWriteStream(savePath);
-            file.pipe(fstream);
-            fstream.on('close', function () {
+            filestream = fs.createWriteStream(savePath);
+            file.pipe(filestream);
+            filestream.on('close', function () {
                 console.log("Upload Finished of " + filename);
                 printer.printDirect({
                     data: fs.readFileSync(savePath),
