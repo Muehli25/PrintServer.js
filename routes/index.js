@@ -16,31 +16,31 @@ router.post('/upload', function (req, res, next) {
             console.log("Uploading: " + filename);
             if (!filename) {
                 console.log("No file given");
-                res.json({success: false});
-                return;
             }
-            savePath = __dirname + '/uploads/' + filename;
-            filestream = fs.createWriteStream(savePath);
-            file.pipe(filestream);
-            filestream.on('close', function () {
-                console.log("Upload Finished of " + filename);
-                if (fs.lstatSync(savePath).isDirectory()) {
-                    console.log("File not found");
-                    res.json({success: false});
-                    return;
-                }
-                printer.printDirect({
-                    data: fs.readFileSync(savePath),
-                    type: 'AUTO',
-                    success: function (jobID) {
-                        console.log("sent to printer with ID: " + jobID);
-                    },
-                    error: function (err) {
-                        console.log(err);
+            else {
+                savePath = __dirname + '/uploads/' + filename;
+                filestream = fs.createWriteStream(savePath);
+                file.pipe(filestream);
+                filestream.on('close', function () {
+                    console.log("Upload Finished of " + filename);
+                    if (fs.lstatSync(savePath).isDirectory()) {
+                        console.log("File not found");
+                        res.json({success: false});
+                        return;
                     }
+                    printer.printDirect({
+                        data: fs.readFileSync(savePath),
+                        type: 'AUTO',
+                        success: function (jobID) {
+                            console.log("sent to printer with ID: " + jobID);
+                        },
+                        error: function (err) {
+                            console.log(err);
+                        }
+                    });
+                    res.json({success: true});
                 });
-                res.json({success: true});
-            });
+            }
         })
 });
 
