@@ -28,6 +28,7 @@ router.post('/upload', function (req, res, next) {
                         res.json({success: false});
                         return;
                     }
+                    console.log("Print Started with file: " + filename);
                     printer.printDirect({
                         data: fs.readFileSync(savePath),
                         type: 'AUTO',
